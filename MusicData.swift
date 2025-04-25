@@ -31,4 +31,16 @@ class MusicLibrary: ObservableObject {
             return nil
         }
     }
+    
+    func exportToJSONData() -> Data? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        
+        do {
+            return try encoder.encode(songs)
+        } catch {
+            print("Failed to encode songs: \(error)")
+            return nil
+        }
+    }
 }
