@@ -18,11 +18,16 @@ class MediaQueryService: ObservableObject {
             return
         }
         
+        // Create a query with proper parameters
         let query = MPMediaQuery.songs()
+        query.groupingType = .title // Ensure we get individual songs, not collections
+        
         guard let items = query.items else {
             print("No songs found")
             return
         }
+        
+        print("Found \(items.count) songs in library") // Debug log
         
         var songsList: [Song] = []
         
@@ -39,6 +44,8 @@ class MediaQueryService: ObservableObject {
         
         DispatchQueue.main.async {
             self.musicLibrary.songs = songsList
+            self.objectWillChange.send() // Explicitly notify observers
+            print("Updated musicLibrary with \(songsList.count) songs") // Debug log
         }
     }
 }

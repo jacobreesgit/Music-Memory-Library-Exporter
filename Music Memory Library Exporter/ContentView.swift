@@ -65,30 +65,49 @@ struct ContentView: View {
             .alert(alertMessage, isPresented: $showingAlert) {
                 Button("OK", role: .cancel) {}
             }
+            .onAppear {
+                // Check if already authorized on appear and fetch songs if needed
+                if MPMediaLibrary.authorizationStatus() == .authorized {
+                    isAuthorized = true
+                    queryService.fetchSongs()
+                }
+            }
         }
     }
     
     private func exportData() {
-        // Get JSON as string
         if let jsonString = queryService.musicLibrary.exportToJSON() {
-            // Share text directly
-            let activityVC = UIActivityViewController(
-                activityItems: [jsonString],
-                applicationActivities: nil
-            )
+            // Create document directory URL
+            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let fileName = "music_play_counts_\(Date().timeIntervalSince1970).json"
+            let fileURL = documentsDirectory.appendingPathComponent(fileName)
             
-            // Present the activity view controller
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let rootViewController = windowScene.windows.first?.rootViewController {
+            do {
+                // Write to the file
+                try jsonString.write(to: fileURL, atomically: true, encoding: .utf8)
                 
-                // On iPad, set the popover presentation controller
-                if let popover = activityVC.popoverPresentationController {
-                    popover.sourceView = rootViewController.view
-                    popover.sourceRect = CGRect(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2, width: 0, height: 0)
-                    popover.permittedArrowDirections = []
+                // Share the file
+                let activityVC = UIActivityViewController(
+                    activityItems: [fileURL],
+                    applicationActivities: nil
+                )
+                
+                // Present the view controller
+                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let rootViewController = windowScene.windows.first?.rootViewController {
+                    
+                    // On iPad, set the popover presentation controller
+                    if let popover = activityVC.popoverPresentationController {
+                        popover.sourceView = rootViewController.view
+                        popover.sourceRect = CGRect(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY, width: 0, height: 0)
+                        popover.permittedArrowDirections = []
+                    }
+                    
+                    rootViewController.present(activityVC, animated: true)
                 }
-                
-                rootViewController.present(activityVC, animated: true)
+            } catch {
+                alertMessage = "Error exporting data: \(error.localizedDescription)"
+                showingAlert = true
             }
         } else {
             alertMessage = "No data to export"
