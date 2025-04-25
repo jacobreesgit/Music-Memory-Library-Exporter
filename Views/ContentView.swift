@@ -43,12 +43,12 @@ struct ContentView: View {
             }
             .sheet(isPresented: $viewModel.isExporting) {
                 if let fileURL = viewModel.exportedFileURL {
-                    ShareSheet(items: [fileURL])
-                        .onDisappear {
-                            // Reset state after sharing
-                            viewModel.isExporting = false
-                            viewModel.exportedFileURL = nil
-                        }
+                    // Use our enhanced ExportShareSheet
+                    ExportShareSheet(url: fileURL) {
+                        // Called when sharing is complete
+                        viewModel.isExporting = false
+                        viewModel.exportedFileURL = nil
+                    }
                 }
             }
             .environmentObject(viewModel.queryService) // Pass queryService to enable artwork access
@@ -135,18 +135,6 @@ struct ContentView: View {
             }
         }
     }
-}
-
-// ShareSheet using UIActivityViewController
-struct ShareSheet: UIViewControllerRepresentable {
-    var items: [Any]
-    
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        let controller = UIActivityViewController(activityItems: items, applicationActivities: nil)
-        return controller
-    }
-    
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 struct ContentView_Previews: PreviewProvider {

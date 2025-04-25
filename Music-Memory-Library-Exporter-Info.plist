@@ -27,5 +27,65 @@
     <string>This app needs access to your music library to export play counts</string>
     <key>LSApplicationCategoryType</key>
     <string>public.app-category.music</string>
+    
+    <!-- File Sharing Configuration -->
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+    <true/>
+    <key>UIFileSharingEnabled</key>
+    <true/>
+    <key>UTExportedTypeDeclarations</key>
+    <array>
+        <dict>
+            <key>UTTypeConformsTo</key>
+            <array>
+                <string>public.data</string>
+                <string>public.content</string>
+            </array>
+            <key>UTTypeDescription</key>
+            <string>Music Library Export</string>
+            <key>UTTypeIdentifier</key>
+            <string>com.jacobrees.music-memory-library-export</string>
+            <key>UTTypeTagSpecification</key>
+            <dict>
+                <key>public.filename-extension</key>
+                <array>
+                    <string>json</string>
+                    <string>csv</string>
+                </array>
+                <key>public.mime-type</key>
+                <array>
+                    <string>application/json</string>
+                    <string>text/csv</string>
+                </array>
+            </dict>
+        </dict>
+    </array>
+    
+    <!-- Document Types for handling files -->
+    <key>CFBundleDocumentTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>Music Library Export JSON</string>
+            <key>LSHandlerRank</key>
+            <string>Owner</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>public.json</string>
+                <string>com.jacobrees.music-memory-library-export</string>
+            </array>
+        </dict>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>Music Library Export CSV</string>
+            <key>LSHandlerRank</key>
+            <string>Owner</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>public.comma-separated-values-text</string>
+                <string>com.jacobrees.music-memory-library-export</string>
+            </array>
+        </dict>
+    </array>
 </dict>
 </plist>

@@ -23,6 +23,11 @@ class MusicLibraryViewModel: ObservableObject {
         } else {
             print("Not authorized yet, will request permission")
         }
+        
+        // Clean up old exports in the background
+        DispatchQueue.global(qos: .background).async {
+            ExportManager.shared.cleanupOldExports()
+        }
     }
     
     // Request access to the music library
@@ -51,7 +56,6 @@ class MusicLibraryViewModel: ObservableObject {
             do {
                 try await queryService.fetchSongs()
                 
-                // Add this to verify data was loaded
                 await MainActor.run {
                     print("Songs fetched successfully. Total count: \(queryService.musicLibrary.totalSongs)")
                     
@@ -76,38 +80,30 @@ class MusicLibraryViewModel: ObservableObject {
     
     // Export data in the selected format
     func exportData() {
-        guard let (exportedData, fileExtension) = queryService.exportData(format: selectedExportFormat) else {
+        // Get export data from service
+        guard let (exportData, _) = queryService.exportData(format: selectedExportFormat) else {
             alertMessage = "No data to export"
             showingAlert = true
             return
         }
         
-        // Determine content type
-        let contentType: UTType
-        switch selectedExportFormat {
-        case .json:
-            contentType = .json
-        case .csv:
-            contentType = .commaSeparatedText
-        }
-        
-        // Create temporary file URL in the cache directory
-        let cacheDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        let fileName = "music_play_counts_\(Date().timeIntervalSince1970).\(fileExtension)"
-        let fileURL = cacheDirectory.appendingPathComponent(fileName)
-        
-        do {
-            // Write to the temporary file
-            try exportedData.write(to: fileURL, atomically: true, encoding: .utf8)
+        // Use export manager to handle the export process
+        ExportManager.shared.exportData(exportData, format: selectedExportFormat) { [weak self] result in
+            guard let self = self else { return }
             
-            // Save the URL for sharing
             DispatchQueue.main.async {
-                self.exportedFileURL = fileURL
-                self.isExporting = true
+                switch result {
+                case .success(let fileURL):
+                    print("File exported successfully: \(fileURL.path)")
+                    self.exportedFileURL = fileURL
+                    self.isExporting = true
+                    
+                case .failure(let error):
+                    print("Export failed: \(error.localizedDescription)")
+                    self.alertMessage = "Export failed: \(error.localizedDescription)"
+                    self.showingAlert = true
+                }
             }
-        } catch {
-            alertMessage = "Error exporting data: \(error.localizedDescription)"
-            showingAlert = true
         }
     }
 }
