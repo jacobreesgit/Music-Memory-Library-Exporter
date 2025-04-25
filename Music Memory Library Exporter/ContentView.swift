@@ -61,7 +61,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationTitle("Music Exporter")
+            .navigationTitle("Music Memory Library Exporter")
             .alert(alertMessage, isPresented: $showingAlert) {
                 Button("OK", role: .cancel) {}
             }
