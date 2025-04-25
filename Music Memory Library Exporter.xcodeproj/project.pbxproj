@@ -6,11 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		07726ECB2DBBC5A8009D3E42 /* MusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07726ECA2DBBC59F009D3E42 /* MusicData.swift */; };
-		07726ECD2DBBC666009D3E42 /* MediaQueryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07726ECC2DBBC664009D3E42 /* MediaQueryService.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		07726EAC2DBBC4AD009D3E42 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -32,24 +27,37 @@
 		07726E9E2DBBC4AB009D3E42 /* Music Memory Library Exporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Music Memory Library Exporter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		07726EAB2DBBC4AD009D3E42 /* Music Memory Library ExporterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Music Memory Library ExporterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		07726EB52DBBC4AD009D3E42 /* Music Memory Library ExporterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Music Memory Library ExporterUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		07726ECA2DBBC59F009D3E42 /* MusicData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicData.swift; sourceTree = "<group>"; };
-		07726ECC2DBBC664009D3E42 /* MediaQueryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaQueryService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		07726EA02DBBC4AB009D3E42 /* Music Memory Library Exporter */ = {
+		07726ECE2DBBF6E1009D3E42 /* App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Music Memory Library Exporter";
+			path = App;
 			sourceTree = "<group>";
 		};
-		07726EAE2DBBC4AD009D3E42 /* Music Memory Library ExporterTests */ = {
+		07726ED02DBBF6F2009D3E42 /* Views */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Music Memory Library ExporterTests";
+			path = Views;
 			sourceTree = "<group>";
 		};
-		07726EB82DBBC4AD009D3E42 /* Music Memory Library ExporterUITests */ = {
+		07726ED12DBBF6F8009D3E42 /* ViewModels */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Music Memory Library ExporterUITests";
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		07726ED22DBBF700009D3E42 /* Models */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Models;
+			sourceTree = "<group>";
+		};
+		07726ED32DBBF705009D3E42 /* Services */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Services;
+			sourceTree = "<group>";
+		};
+		07726ED42DBBF70B009D3E42 /* Resources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -82,11 +90,12 @@
 		07726E952DBBC4AB009D3E42 = {
 			isa = PBXGroup;
 			children = (
-				07726ECC2DBBC664009D3E42 /* MediaQueryService.swift */,
-				07726ECA2DBBC59F009D3E42 /* MusicData.swift */,
-				07726EA02DBBC4AB009D3E42 /* Music Memory Library Exporter */,
-				07726EAE2DBBC4AD009D3E42 /* Music Memory Library ExporterTests */,
-				07726EB82DBBC4AD009D3E42 /* Music Memory Library ExporterUITests */,
+				07726ED42DBBF70B009D3E42 /* Resources */,
+				07726ED32DBBF705009D3E42 /* Services */,
+				07726ED22DBBF700009D3E42 /* Models */,
+				07726ED12DBBF6F8009D3E42 /* ViewModels */,
+				07726ED02DBBF6F2009D3E42 /* Views */,
+				07726ECE2DBBF6E1009D3E42 /* App */,
 				07726E9F2DBBC4AB009D3E42 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -116,9 +125,6 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				07726EA02DBBC4AB009D3E42 /* Music Memory Library Exporter */,
-			);
 			name = "Music Memory Library Exporter";
 			packageProductDependencies = (
 			);
@@ -139,9 +145,6 @@
 			dependencies = (
 				07726EAD2DBBC4AD009D3E42 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				07726EAE2DBBC4AD009D3E42 /* Music Memory Library ExporterTests */,
-			);
 			name = "Music Memory Library ExporterTests";
 			packageProductDependencies = (
 			);
@@ -161,9 +164,6 @@
 			);
 			dependencies = (
 				07726EB72DBBC4AD009D3E42 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				07726EB82DBBC4AD009D3E42 /* Music Memory Library ExporterUITests */,
 			);
 			name = "Music Memory Library ExporterUITests";
 			packageProductDependencies = (
@@ -245,8 +245,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07726ECB2DBBC5A8009D3E42 /* MusicData.swift in Sources */,
-				07726ECD2DBBC666009D3E42 /* MediaQueryService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
