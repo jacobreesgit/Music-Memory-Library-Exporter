@@ -37,6 +37,7 @@ struct ContentView: View {
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
             }
+            .environmentObject(viewModel.queryService) // Pass queryService to enable artwork access
         }
     }
     
@@ -82,30 +83,32 @@ struct ContentView: View {
                                 color: Color(hex: "8E54E9")
                             )
                             
-                            // Top songs section
+                            // Top songs by play count - shown if we have songs with play counts
                             if !viewModel.queryService.musicLibrary.topSongs.isEmpty {
                                 Divider()
                                 
                                 HStack {
                                     Text("Top Played Songs")
                                         .font(.headline)
-                                        .fontWeight(.medium)
+                                        .fontWeight(.bold)
                                     
                                     Spacer()
                                 }
-                                .padding(.top, 5)
+                                .padding(.vertical, 8)
                                 
-                                ForEach(viewModel.queryService.musicLibrary.topSongs) { song in
+                                // List of top songs
+                                ForEach(Array(viewModel.queryService.musicLibrary.topSongs)) { song in
                                     SongListItem(song: song)
                                 }
                             }
                         }
                     }
+                    .padding(.top, -60)
                     
                     // Export button
-                    Button(action: {
+                    Button {
                         showExportOptions = true
-                    }) {
+                    } label: {
                         HStack {
                             Image(systemName: "square.and.arrow.up")
                             Text("Export Library")
@@ -113,11 +116,15 @@ struct ContentView: View {
                     }
                     .buttonStyle(PrimaryButtonStyle(isWide: true))
                     .padding(.horizontal)
-                    .padding(.vertical, 10)
+                    .padding(.bottom, 20)
                 }
-                .padding(.top, -40)  // Negative offset to overlap with header
             }
-            .padding(.bottom, 20)
         }
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
     }
 }

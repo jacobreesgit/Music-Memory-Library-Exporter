@@ -13,13 +13,23 @@ class MusicLibraryViewModel: ObservableObject {
         self.queryService = queryService
         // Check if already authorized
         isAuthorized = queryService.isAuthorized
+        
+        // Add this to fetch songs if already authorized
+        if isAuthorized {
+            print("Already authorized, fetching songs in init")
+            fetchSongs()
+        } else {
+            print("Not authorized yet, will request permission")
+        }
     }
     
     // Request access to the music library
     func requestAuthorization() {
+        print("Requesting authorization")
         Task {
             let granted = await queryService.requestAuthorization()
             await MainActor.run {
+                print("Authorization result: \(granted)")
                 isAuthorized = granted
                 if granted {
                     fetchSongs()
@@ -33,17 +43,29 @@ class MusicLibraryViewModel: ObservableObject {
     
     // Fetch songs from the music library
     func fetchSongs() {
+        print("Attempting to fetch songs, authorization status: \(queryService.isAuthorized)")
+        
         Task {
             do {
                 try await queryService.fetchSongs()
+                
+                // Add this to verify data was loaded
+                await MainActor.run {
+                    print("Songs fetched successfully. Total count: \(queryService.musicLibrary.totalSongs)")
+                    
+                    // Force UI update if needed
+                    self.objectWillChange.send()
+                }
             } catch let error as MusicAuthorizationError {
                 await MainActor.run {
+                    print("Error fetching songs: \(error.localizedDescription)")
                     alertMessage = error.localizedDescription
                     showingAlert = true
                 }
             } catch {
                 await MainActor.run {
-                    alertMessage = "An unexpected error occurred"
+                    print("Unexpected error: \(error)")
+                    alertMessage = "An unexpected error occurred: \(error)"
                     showingAlert = true
                 }
             }

@@ -134,26 +134,45 @@ struct StatItem: View {
     }
 }
 
-// MARK: - Song List Item
+// MARK: - Song List Item with Album Art
 struct SongListItem: View {
     let song: Song
+    @EnvironmentObject var queryService: MediaQueryService
+    
+    // Function to truncate album title for display
+    private func truncateAlbum(_ text: String, limit: Int = 25) -> String {
+        if text.count <= limit {
+            return text
+        }
+        let index = text.index(text.startIndex, offsetBy: limit - 3)
+        return String(text[..<index]) + "..."
+    }
     
     var body: some View {
         HStack(spacing: 16) {
-            // Album artwork placeholder
+            // Album artwork with placeholder fallback
             ZStack {
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(LinearGradient(
-                        colors: [Color(hex: "e0e0e0"), Color(hex: "f5f5f5")],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    ))
-                    .frame(width: 50, height: 50)
-                    .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
-                
-                Image(systemName: "music.note")
-                    .font(.system(size: 16))
-                    .foregroundColor(Color(hex: "8E54E9"))
+                if let artwork = queryService.getArtwork(for: song.id) {
+                    Image(uiImage: artwork)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 56, height: 56)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                } else {
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(LinearGradient(
+                            colors: [Color(hex: "e0e0e0"), Color(hex: "f5f5f5")],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ))
+                        .frame(width: 56, height: 56)
+                        .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    
+                    Image(systemName: "music.note")
+                        .font(.system(size: 18))
+                        .foregroundColor(Color(hex: "8E54E9"))
+                }
             }
             
             VStack(alignment: .leading, spacing: 4) {
@@ -163,22 +182,40 @@ struct SongListItem: View {
                     .foregroundColor(.primary)
                     .lineLimit(1)
                 
-                Text("\(song.artist) • \(song.album)")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .lineLimit(1)
+                // Artist & Album with proper sizing
+                HStack(spacing: 4) {
+                    Text(song.artist)
+                        .lineLimit(1)
+                    
+                    // Separator dot
+                    Text("•")
+                        .foregroundColor(.gray.opacity(0.7))
+                    
+                    // Truncate album title
+                    Text(truncateAlbum(song.album))
+                        .lineLimit(1)
+                }
+                .font(.subheadline)
+                .foregroundColor(.secondary)
                 
-                HStack {
+                // Improved play count display
+                HStack(spacing: 4) {
                     Image(systemName: "play.circle.fill")
                         .foregroundColor(song.playCount > 0 ? Color(hex: "4776E6") : Color.gray)
                     
                     Text("\(song.playCount) plays")
-                        .font(.caption)
+                        .font(.footnote)
+                        .fontWeight(.medium)
                         .foregroundColor(song.playCount > 0 ? Color(hex: "4776E6") : Color.gray)
                 }
+                .padding(.top, 2)
             }
+            
+            Spacer()
         }
-        .padding(.vertical, 8)
+        .padding(.vertical, 10)
+        .padding(.horizontal, 4)
+        .contentShape(Rectangle())
     }
 }
 
