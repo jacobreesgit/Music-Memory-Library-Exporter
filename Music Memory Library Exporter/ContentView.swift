@@ -61,7 +61,22 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationTitle("Music Memory Library Exporter")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    VStack(spacing: 0) {
+                        Spacer().frame(height: 80)
+                        Text("Music Memory Library Exporter")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.leading)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+            }
             .alert(alertMessage, isPresented: $showingAlert) {
                 Button("OK", role: .cancel) {}
             }
