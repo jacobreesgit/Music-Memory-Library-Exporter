@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		07726ECB2DBBC5A8009D3E42 /* MusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07726ECA2DBBC59F009D3E42 /* MusicData.swift */; };
+		07726ECD2DBBC666009D3E42 /* MediaQueryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07726ECC2DBBC664009D3E42 /* MediaQueryService.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		07726EAC2DBBC4AD009D3E42 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +32,8 @@
 		07726E9E2DBBC4AB009D3E42 /* Music Memory Library Exporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Music Memory Library Exporter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		07726EAB2DBBC4AD009D3E42 /* Music Memory Library ExporterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Music Memory Library ExporterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		07726EB52DBBC4AD009D3E42 /* Music Memory Library ExporterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Music Memory Library ExporterUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		07726ECA2DBBC59F009D3E42 /* MusicData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicData.swift; sourceTree = "<group>"; };
+		07726ECC2DBBC664009D3E42 /* MediaQueryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaQueryService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +82,8 @@
 		07726E952DBBC4AB009D3E42 = {
 			isa = PBXGroup;
 			children = (
+				07726ECC2DBBC664009D3E42 /* MediaQueryService.swift */,
+				07726ECA2DBBC59F009D3E42 /* MusicData.swift */,
 				07726EA02DBBC4AB009D3E42 /* Music Memory Library Exporter */,
 				07726EAE2DBBC4AD009D3E42 /* Music Memory Library ExporterTests */,
 				07726EB82DBBC4AD009D3E42 /* Music Memory Library ExporterUITests */,
@@ -236,6 +245,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07726ECB2DBBC5A8009D3E42 /* MusicData.swift in Sources */,
+				07726ECD2DBBC666009D3E42 /* MediaQueryService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +411,9 @@
 				DEVELOPMENT_TEAM = 5RP4WRQ9V2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Music-Memory-Library-Exporter-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "This app needs access to your music library to export play counts";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -428,6 +442,9 @@
 				DEVELOPMENT_TEAM = 5RP4WRQ9V2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Music-Memory-Library-Exporter-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "This app needs access to your music library to export play counts";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
