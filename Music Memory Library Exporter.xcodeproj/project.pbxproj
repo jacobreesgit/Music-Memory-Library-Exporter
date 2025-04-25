@@ -125,6 +125,14 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				07726ECE2DBBF6E1009D3E42 /* App */,
+				07726ED02DBBF6F2009D3E42 /* Views */,
+				07726ED12DBBF6F8009D3E42 /* ViewModels */,
+				07726ED22DBBF700009D3E42 /* Models */,
+				07726ED32DBBF705009D3E42 /* Services */,
+				07726ED42DBBF70B009D3E42 /* Resources */,
+			);
 			name = "Music Memory Library Exporter";
 			packageProductDependencies = (
 			);

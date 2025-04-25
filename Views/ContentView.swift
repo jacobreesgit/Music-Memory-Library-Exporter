@@ -81,3 +81,43 @@ struct ContentView: View {
                                 icon: "play.circle.fill",
                                 color: Color(hex: "8E54E9")
                             )
+                            
+                            // Top songs section
+                            if !viewModel.queryService.musicLibrary.topSongs.isEmpty {
+                                Divider()
+                                
+                                HStack {
+                                    Text("Top Played Songs")
+                                        .font(.headline)
+                                        .fontWeight(.medium)
+                                    
+                                    Spacer()
+                                }
+                                .padding(.top, 5)
+                                
+                                ForEach(viewModel.queryService.musicLibrary.topSongs) { song in
+                                    SongListItem(song: song)
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Export button
+                    Button(action: {
+                        showExportOptions = true
+                    }) {
+                        HStack {
+                            Image(systemName: "square.and.arrow.up")
+                            Text("Export Library")
+                        }
+                    }
+                    .buttonStyle(PrimaryButtonStyle(isWide: true))
+                    .padding(.horizontal)
+                    .padding(.vertical, 10)
+                }
+                .padding(.top, -40)  // Negative offset to overlap with header
+            }
+            .padding(.bottom, 20)
+        }
+    }
+}
