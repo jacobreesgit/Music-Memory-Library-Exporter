@@ -443,7 +443,6 @@ struct ExportOptionsSheet: View {
                 
                 // Export button
                 Button {
-                    dismiss()
                     exportAction()
                 } label: {
                     Text("Export Now")
@@ -469,7 +468,6 @@ struct ExportOptionsSheet: View {
         }
     }
 }
-
 // MARK: - Color Extension
 extension Color {
     init(hex: String) {

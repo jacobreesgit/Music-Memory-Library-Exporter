@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import UniformTypeIdentifiers
 
 class MusicLibraryViewModel: ObservableObject {
     @Published var queryService: MediaQueryService
@@ -8,6 +9,7 @@ class MusicLibraryViewModel: ObservableObject {
     @Published var showingAlert = false
     @Published var selectedExportFormat: ExportFormat = .json
     @Published var isExporting = false
+    @Published var exportedFileURL: URL?
     
     init(queryService: MediaQueryService = MediaQueryService()) {
         self.queryService = queryService
@@ -80,47 +82,32 @@ class MusicLibraryViewModel: ObservableObject {
             return
         }
         
-        // Create document directory URL
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        // Determine content type
+        let contentType: UTType
+        switch selectedExportFormat {
+        case .json:
+            contentType = .json
+        case .csv:
+            contentType = .commaSeparatedText
+        }
+        
+        // Create temporary file URL in the cache directory
+        let cacheDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
         let fileName = "music_play_counts_\(Date().timeIntervalSince1970).\(fileExtension)"
-        let fileURL = documentsDirectory.appendingPathComponent(fileName)
+        let fileURL = cacheDirectory.appendingPathComponent(fileName)
         
         do {
-            // Write to the file
+            // Write to the temporary file
             try exportedData.write(to: fileURL, atomically: true, encoding: .utf8)
             
-            // Share the file
-            shareFile(at: fileURL)
+            // Save the URL for sharing
+            DispatchQueue.main.async {
+                self.exportedFileURL = fileURL
+                self.isExporting = true
+            }
         } catch {
             alertMessage = "Error exporting data: \(error.localizedDescription)"
             showingAlert = true
-        }
-    }
-    
-    // Present a share sheet for the exported file
-    private func shareFile(at fileURL: URL) {
-        isExporting = true
-        
-        // Create a ShareLink programmatically
-        let activityVC = UIActivityViewController(
-            activityItems: [fileURL],
-            applicationActivities: nil
-        )
-        
-        // Present the view controller
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootViewController = windowScene.windows.first?.rootViewController {
-            
-            // On iPad, set the popover presentation controller
-            if let popover = activityVC.popoverPresentationController {
-                popover.sourceView = rootViewController.view
-                popover.sourceRect = CGRect(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY, width: 0, height: 0)
-                popover.permittedArrowDirections = []
-            }
-            
-            rootViewController.present(activityVC, animated: true) {
-                self.isExporting = false
-            }
         }
     }
 }
